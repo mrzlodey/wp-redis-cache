@@ -26,9 +26,9 @@ Move the `wp-cache.php` and `predis` to the root/base Wordpress directory. In `w
 
 Nginx virtual host configuration:
 
-server {
+<code>server {
     listen 80;
-    
+
     server_name localhost;
     root /usr/share/nginx/html;
     index index.php;
@@ -56,7 +56,7 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
     }
-}
+}</code>
 
 ### Benchmark
 ------
