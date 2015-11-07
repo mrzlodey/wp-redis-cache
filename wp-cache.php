@@ -5,7 +5,6 @@ $redis_sock = '/var/run/redis/redis.sock';
 $redis_unix = true;
 $cheche_timeout = 3600;
 $debug_show = true;
-$debug_msgs;
 
 // Page load time
 $start = microtime();
@@ -44,6 +43,7 @@ if (preg_match("/wordpress_logged_in/", var_export($_COOKIE, true))) {
 else {
     // Cached page exists
     if ($redis->exists($cache_key)) {
+        if (strpos($url, '/feed/')) { header('Content-Type: application/rss+xml; charset=UTF-8'); }
         echo $redis->get($cache_key);
         $debug_msgs .= "<!-- cache_key: $cache_key -->\n";
     }
@@ -60,14 +60,14 @@ else {
     }
 }
 
-function getMicroTime($time) {
+function get_microtime($time) {
     list($usec, $sec) = explode(" ", $time);
     return ((float) $usec + (float) $sec);
 }
 
 if ($debug_show) {
     $end  = microtime();
-    $time = (@getMicroTime($end) - @getMicroTime($start));
+    $time = (@get_microtime($end) - @get_microtime($start));
     echo "\n<!-- Page generated in ". round($time, 5) ." seconds. -->\n";
     echo $debug_msgs;
 }
