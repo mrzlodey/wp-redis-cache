@@ -4,11 +4,16 @@ $redis_port = '6379';
 $redis_sock = '/var/run/redis/redis.sock';
 $redis_unix = true;
 $gzip_level = 3;
-$cheche_timeout = 86400;
+$cheche_timeout = 24 * 60 * 60;
 $debug_show = true;
 
 // Page load time
 $start = microtime();
+
+function get_microtime($time) {
+    list($usec, $sec) = explode(" ", $time);
+    return ((float) $usec + (float) $sec);
+}
 
 if (class_exists('Redis')) {
     // PhpRedis PECL extension
@@ -59,11 +64,6 @@ else {
         $redis->setex($cache_key, $cheche_timeout, gzdeflate($html, $gzip_level));
         $debug_msgs .= "<!-- adding_cache -->\n";
     }
-}
-
-function get_microtime($time) {
-    list($usec, $sec) = explode(" ", $time);
-    return ((float) $usec + (float) $sec);
 }
 
 if ($debug_show) {
