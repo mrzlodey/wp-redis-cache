@@ -18,7 +18,7 @@ if (class_exists('Redis')) {
 }
 else {
     // Predis PHP client library
-    require( dirname(__FILE__) . '/predis/Autoloader.php');
+    require(dirname(__FILE__) . '/predis/Autoloader.php');
     Predis\Autoloader::register();
     if ($redis_unix) $redis = new Predis\Client('unix://'. $redis_sock);
     else $redis = new Predis\Client('tcp://'. $redis_host .':'. $redis_port);
@@ -32,7 +32,7 @@ $cache_key = md5($url);
 // If logged in to WordPress
 if (preg_match("/wordpress_logged_in/", var_export($_COOKIE, true))) {
     //Load WordPress index.php
-    require( dirname(__FILE__) . '/index.php');
+    require(dirname(__FILE__) . '/index.php');
     $debug_msgs .= "<!-- logged_cache_off -->\n";
     // Flush Radis cache by adding ?flush=true after the URL
     if ($_GET['flush'] == true && $redis->exists($cache_key)) {
