@@ -10,11 +10,6 @@ $debug_show = true;
 // Page load time
 $start = microtime();
 
-function get_microtime($time) {
-    list($usec, $sec) = explode(" ", $time);
-    return ((float) $usec + (float) $sec);
-}
-
 if (class_exists('Redis')) {
     // PhpRedis PECL extension
     $redis = new Redis();
@@ -64,6 +59,11 @@ else {
         $redis->setex($cache_key, $cheche_timeout, gzdeflate($html, $gzip_level));
         $debug_msgs .= "<!-- adding_cache -->\n";
     }
+}
+
+function get_microtime($time) {
+    list($usec, $sec) = explode(" ", $time);
+    return ((float) $usec + (float) $sec);
 }
 
 if ($debug_show) {
