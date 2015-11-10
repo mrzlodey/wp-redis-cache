@@ -26,8 +26,8 @@ else {
 }
 
 // Get page URL
-parse_str($_SERVER['QUERY_STRING'], $ar);
-$url = strtok($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], '?') . http_build_query(array_diff_key($ar,array('flush'=>"")));
+parse_str($_SERVER['QUERY_STRING'], $vars);
+$url = strtok($_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], '?') . http_build_query(array_diff_key($vars,array('flush'=>"")));
 $cache_key = md5($url);
 
 // If logged in to WordPress
