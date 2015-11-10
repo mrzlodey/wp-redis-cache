@@ -6,6 +6,7 @@ $redis_unix = true;
 $gzip_level = 3;
 $cheche_timeout = 24 * 60 * 60;
 $debug_show = true;
+$debug_msgs = '';
 
 // Page load time
 $start = microtime();
