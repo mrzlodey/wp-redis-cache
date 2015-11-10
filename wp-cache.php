@@ -61,9 +61,8 @@ else {
     }
 }
 
-$end  = microtime();
-
 if ($debug_show) {
+    $end  = microtime();
     $time = (@get_microtime($end) - @get_microtime($start));
     echo "\n<!-- Page generated in ". round($time, 5) ." seconds. -->\n";
     echo $debug_msgs;
