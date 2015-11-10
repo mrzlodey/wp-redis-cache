@@ -13,15 +13,15 @@ $start = microtime();
 if (class_exists('Redis')) {
     // PhpRedis PECL extension
     $redis = new Redis();
-    if ($redis_unix) { $redis->connect($redis_sock); }
-    else { $redis->connect($redis_host, $redis_port); }
+    if ($redis_unix) $redis->connect($redis_sock);
+    else $redis->connect($redis_host, $redis_port);
 }
 else {
     // Predis PHP client library
     require( dirname(__FILE__) . '/predis/Autoloader.php');
     Predis\Autoloader::register();
-    if ($redis_unix) { $redis = new Predis\Client('unix://'. $redis_sock); }
-    else { $redis = new Predis\Client('tcp://'. $redis_host .':'. $redis_port); }
+    if ($redis_unix) $redis = new Predis\Client('unix://'. $redis_sock);
+    else $redis = new Predis\Client('tcp://'. $redis_host .':'. $redis_port);
 }
 
 // Get page URL
