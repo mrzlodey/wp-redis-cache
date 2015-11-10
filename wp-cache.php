@@ -44,14 +44,14 @@ if (preg_match("/wordpress_logged_in/", var_export($_COOKIE, true))) {
 else {
     // Cached page exists
     if ($redis->exists($cache_key)) {
-        if (strpos($url, '/feed/')) { header('Content-Type: application/rss+xml; charset=UTF-8'); }
+        if (strpos($url, '/feed/')) header('Content-Type: application/rss+xml; charset=UTF-8');
         echo gzinflate($redis->get($cache_key));
         $debug_msgs .= "<!-- cache_key: $cache_key -->\n";
     }
     // Cached page not exists
     else {
         ob_start();
-        require( dirname(__FILE__) . '/index.php');
+        require(dirname(__FILE__) . '/index.php');
         // Adding page to cache
         $html = ob_get_contents();
         ob_end_clean();
