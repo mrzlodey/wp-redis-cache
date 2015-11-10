@@ -61,6 +61,11 @@ else {
     }
 }
 
+function get_microtime($time) {
+    list($usec, $sec) = explode(" ", $time);
+    return ((float) $usec + (float) $sec);
+}
+
 if ($debug_show) {
     $end  = microtime();
     $time = (@get_microtime($end) - @get_microtime($start));
