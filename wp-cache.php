@@ -38,7 +38,6 @@ if (preg_match("/wordpress_logged_in/", var_export($_COOKIE, true))) {
     // Flush Radis cache by adding ?flush=true after the URL
     if ($_GET['flush'] == true && $redis->exists($cache_key)) {
         $redis->del($cache_key);
-        $debug_msgs .= "<!-- cache_flush -->\n";
     }
 }
 // If not logged in to WordPress
@@ -47,7 +46,7 @@ else {
     if ($redis->exists($cache_key)) {
         if (strpos($url, '/feed/')) header('Content-Type: application/rss+xml; charset=UTF-8');
         echo gzinflate($redis->get($cache_key));
-        $debug_msgs .= "<!-- cache_key: $cache_key -->\n";
+        $debug_msgs .= "<!-- $cache_key -->\n";
     }
     // Cached page not exists
     else {
@@ -58,7 +57,6 @@ else {
         ob_end_clean();
         echo $html;
         $redis->setex($cache_key, $cheche_timeout, gzdeflate($html, $gzip_level));
-        $debug_msgs .= "<!-- adding_cache -->\n";
     }
 }
 
