@@ -14,15 +14,12 @@ $start = microtime();
 if (class_exists('Redis')) {
     // PhpRedis PECL extension
     $redis = new Redis();
-    if ($redis_unix) $redis->connect($redis_sock);
-    else $redis->connect($redis_host, $redis_port);
-}
+    $redis_unix ? $redis->connect($redis_sock) : $redis->connect($redis_host, $redis_port);}
 else {
     // Predis PHP client library
     require(dirname(__FILE__) . '/predis/Autoloader.php');
     Predis\Autoloader::register();
-    if ($redis_unix) $redis = new Predis\Client('unix://'. $redis_sock);
-    else $redis = new Predis\Client('tcp://'. $redis_host .':'. $redis_port);
+    $redis = ($redis_unix ? new Predis\Client('unix://'. $redis_sock) : new Predis\Client('tcp://'. $redis_host .':'. $redis_port));
 }
 
 // Get page URL
@@ -37,6 +34,7 @@ if (preg_match("/wordpress_logged_in/", var_export($_COOKIE, true))) {
     // Flush Radis cache by adding ?flush=true after the URL
     if ($_GET['flush'] == true && $redis->exists($cache_key)) {
         $redis->del($cache_key);
+        $debug_msgs .= "<!-- cache_flush -->\n";
     }
 }
 // If not logged in to WordPress
