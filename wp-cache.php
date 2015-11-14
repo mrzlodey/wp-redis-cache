@@ -34,7 +34,6 @@ $cache_key = md5($url);
 if (preg_match("/wordpress_logged_in/", var_export($_COOKIE, true))) {
     //Load WordPress index.php
     require(dirname(__FILE__) . '/index.php');
-    $debug_msgs .= "<!-- logged_cache_off -->\n";
     // Flush Radis cache by adding ?flush=true after the URL
     if ($_GET['flush'] == true && $redis->exists($cache_key)) {
         $redis->del($cache_key);
