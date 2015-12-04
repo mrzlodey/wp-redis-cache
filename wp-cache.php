@@ -3,7 +3,6 @@ $redis_host = '127.0.0.1';
 $redis_port = '6379';
 $redis_sock = '/var/run/redis/redis.sock';
 $redis_unix = true;
-$gzip_level = 3;
 $cheche_timeout = 24 * 60 * 60;
 $debug_show = true;
 $debug_msgs = '';
@@ -42,7 +41,7 @@ else {
     // Cached page exists
     if ($redis->exists($cache_key)) {
         if (strpos($url, '/feed/')) header('Content-Type: application/rss+xml; charset=UTF-8');
-        echo gzinflate($redis->get($cache_key));
+        echo $redis->get($cache_key);
         $debug_msgs .= "<!-- $cache_key -->\n";
     }
     // Cached page not exists
@@ -53,7 +52,7 @@ else {
         $html = ob_get_contents();
         ob_end_clean();
         echo $html;
-        $redis->setex($cache_key, $cheche_timeout, gzdeflate($html, $gzip_level));
+        $redis->setex($cache_key, $cheche_timeout, $html);
     }
 }
 
